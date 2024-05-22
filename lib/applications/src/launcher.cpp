@@ -43,30 +43,29 @@ int launcher()
     win.addChild(batt);
 
     uint32_t evid = eventHandlerApp.setInterval(
-        new Callback<>([&hour, &date]() { 
+        new Callback<>([&hour, &date]()
+                       {
             static int min;
             if(min!=GSM::minutes)
             {
                 hour->setText(std::to_string(GSM::hours) + ":" + (GSM::minutes<=9 ? "0" : "") + std::to_string(GSM::minutes));
                 date->setText(getFormatedHour());
                 min = GSM::minutes;
-            }
-         }),
-        500
-    );
+            } }),
+        500);
 
-    std::vector<gui::ElementBase*> apps;
+    std::vector<gui::ElementBase *> apps;
 
     for (int i = 0; i < app::appList.size(); i++)
     {
-        Box* box = new Box(60 + 119 * (i%2), 164 + 95 * int(i/2), 80, 80);
-        
+        Box *box = new Box(60 + 119 * (i % 2), 164 + 95 * int(i / 2), 80, 80);
+
         std::cout << (app::appList[i].path / "../icon.png").str() << std::endl;
-        Image* img = new Image(app::appList[i].path / "../icon.png", 20, 6, 40, 40);
+        Image *img = new Image(app::appList[i].path / "../icon.png", 20, 6, 40, 40);
         img->load();
         box->addChild(img);
 
-        Label* text = new Label(0, 46, 80, 34);
+        Label *text = new Label(0, 46, 80, 34);
         text->setText(app::appList[i].name);
         text->setVerticalAlignment(Label::Alignement::CENTER);
         text->setHorizontalAlignment(Label::Alignement::CENTER);
@@ -76,7 +75,7 @@ int launcher()
         win.addChild(box);
 
         apps.push_back(box);
-    }
+        }
 
     while (!hardware::getHomeButton())
     {
